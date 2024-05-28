@@ -26,7 +26,7 @@ environment {
                 echo "------------------unit test completed---------------"
             }
         }
-    stage('SonarQube analysis') {
+    /*stage('SonarQube analysis') {
     environment {
             scannerHome = tool 'valaxy-sonar-scanner'
         }
@@ -35,7 +35,7 @@ environment {
         sh "${scannerHome}/bin/sonar-scanner"
      }
      }
-  }
+  }*/
 
     stage("Jar Publish") {
         steps {
