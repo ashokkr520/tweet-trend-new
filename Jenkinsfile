@@ -1,5 +1,8 @@
 
 def registry = 'https://ashkmr.jfrog.io'
+def imageName = 'ashkmr.jfrog.io/ashkmr-docker-local/ttrend'
+def version   = '2.1.2'
+
 pipeline {
     agent {
         node{
@@ -61,7 +64,32 @@ environment {
             
             }
         }   
-    }   
+    }
+
+       
+    stage(" Docker Build ") {
+      steps {
+        script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version)
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
+
+            stage (" Docker Publish "){
+        steps {
+            script {
+               echo '<--------------- Docker Publish Started --------------->'  
+                docker.withRegistry(registry, 'jfrog-cred'){
+                    app.push()
+                }    
+               echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
+    }
+
+
         
     }
 }
